@@ -6,10 +6,15 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import DonorDirectoryPage from "./pages/donors/DonorDirectoryPage";
 import DonorDetailsPage from "./pages/donors/DonorDetailsPage";
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
+    <>
+     <Toaster position="top-center" reverseOrder={false} />
+
     <Routes>
+
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
 
@@ -19,6 +24,8 @@ function App() {
       <Route path="/donors" element={<DonorDirectoryPage />} />
       <Route path="/donors/:id" element={<DonorDetailsPage />} />
     </Routes>
+    </>
+   
   );
 }
 
