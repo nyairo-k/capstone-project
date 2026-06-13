@@ -48,7 +48,9 @@ The app will be available at: http://localhost:5173
 
 ## API Used
 
-*DummyJSON Users API*
+DummyJSON Users API
+URL: https://dummyjson.com/users
+Documentation: https://dummyjson.com/docs/users
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -80,6 +82,10 @@ BloodLink/
 ├── package.json
 └── README.md
 
-## Author
+## Authors
 Agnes Ng'ang'a
 GitHub: https://github.com/Mwihaki112
+Muthomi Kaburu
+GitHub: https://github.com/MuthomiKaburu
+Bathsheba Nyairo
+GitHub: https://github.com/nyairo-k
