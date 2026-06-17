@@ -9,7 +9,7 @@ export default function AboutPage() {
 
   const navLinks = [
     { label: "Home", path: "/" },
-    { label: "Donate Blood", path: "/donors" },
+    { label: "Find Donors", path: "/donors" },
     { label: "About Us", path: "/about" },
   ];
 
