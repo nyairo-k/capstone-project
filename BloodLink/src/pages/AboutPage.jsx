@@ -55,9 +55,8 @@ export default function AboutPage() {
             <Link
               key={link.label}
               to={link.path}
-              className={`font-['Poppins',sans-serif] text-[24px] text-black pb-[10px] ${
-                location.pathname === link.path ? "border-b-[5px] border-[#4b4949]" : ""
-              }`}
+              className={`font-['Poppins',sans-serif] text-[24px] text-black pb-[10px] ${location.pathname === link.path ? "border-b-[5px] border-[#4b4949]" : ""
+                }`}
             >
               {link.label}
             </Link>
@@ -80,7 +79,7 @@ export default function AboutPage() {
         </h1>
         <p className="font-['Roboto',sans-serif] font-light text-[20px] text-[#3c3c3c] tracking-[0.5px] max-w-[760px] mx-auto leading-relaxed">
           BloodLink makes it simple to find, give, and receive blood when it
-          matters most — connecting hospitals, clinics, and everyday heroes
+          matters most connecting hospitals, clinics, and everyday heroes
           on one platform.
         </p>
       </section>
@@ -92,7 +91,7 @@ export default function AboutPage() {
             Our Story
           </h2>
           <p className="font-['Roboto',sans-serif] font-light text-[18px] text-[#3c3c3c] tracking-[0.5px] leading-relaxed mb-[20px]">
-            Every two seconds, someone somewhere needs blood — but matching
+            Every two seconds, someone somewhere needs blood but matching
             willing donors with the right hospital, at the right time, is
             still a manual, disconnected process for too many communities.
           </p>
