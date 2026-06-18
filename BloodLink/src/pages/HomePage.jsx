@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 
 const NAV_LINKS = [
   { label: "Home", path: "/" },
-  { label: "Donate Blood", path: "/donors" },
+  { label: "Find Donors", path: "/donors" },
   { label: "About Us", path: "/about" },
 ];
 
