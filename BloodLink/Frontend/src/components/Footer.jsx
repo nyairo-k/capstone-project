@@ -3,14 +3,6 @@ import beAHero from "../assets/be-a-hero.jpeg";
 export default function Footer() {
   return (
     <footer className="bg-[#1e2833] px-[60px] py-[60px]">
-      <div className="flex items-center justify-between pb-[40px] border-b border-white/10">
-        <p className="font-['DM_Sans',sans-serif] text-[22px] text-white">
-          Are you an organization?
-        </p>
-        <button className="bg-white text-black font-['Roboto',sans-serif] font-bold text-[24px] rounded-[8px] px-[40px] py-[12px]">
-          Apply
-        </button>
-      </div>
 
       <div className="flex items-start justify-between py-[40px]">
         <img src={beAHero} alt="Be a hero" className="w-[255px] rounded-[8px]" />
