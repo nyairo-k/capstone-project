@@ -53,6 +53,7 @@ class Hospital(db.Model):
 
 
 
+
 class BloodRequest(db.Model):
 
     __tablename__ = "blood_requests"
@@ -70,6 +71,7 @@ class BloodRequest(db.Model):
     )
 
 
+    # KEEP THIS
     hospital_name = db.Column(
         db.String(100),
         nullable=False

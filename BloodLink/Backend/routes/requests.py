@@ -103,7 +103,6 @@ def get_requests():
             "requester_name": req.requester_name,
 
             "hospital_name": req.hospital_name,
-
             "blood_type_needed": req.blood_type_needed,
 
             "units_needed": req.units_needed,
