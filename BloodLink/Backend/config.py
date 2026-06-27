@@ -1,7 +1,7 @@
 class Config:
 
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql://postgres:12345@localhost/bloodlink"
+        "postgresql://postgres:root@localhost/bloodlink"
     )
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
