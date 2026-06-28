@@ -46,7 +46,37 @@ def get_requests():
     else:
         results = BloodRequest.query.order_by(BloodRequest.created_at.desc()).all()
 
-    return jsonify([_serialize(r) for r in results]), 200
+    requests = BloodRequest.query.all()
+
+
+
+    response = []
+
+
+    for req in requests:
+
+        response.append({
+
+            "id": req.id,
+
+            "requester_name": req.requester_name,
+
+            "hospital_name": req.hospital_name,
+            "blood_type_needed": req.blood_type_needed,
+
+            "units_needed": req.units_needed,
+
+            "urgency_level": req.urgency_level,
+
+            "status": req.status,
+
+            "donor_id": req.donor_id,
+
+            "contact_phone": req.contact_phone,
+
+            "location": req.location,
+
+            "created_at": req.created_at
 
 
 # PATCH /requests/<id> — hospital edits their own request details

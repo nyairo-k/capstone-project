@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 import ellipse from "../../assets/Ellipse.png";
 import handsImage from "../../assets/handsImageBlood.png";
 
@@ -120,7 +118,6 @@ export default function SignupPage() {
 
   return (
     <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-      <Navbar />
 
       <section className="flex items-center justify-center py-[60px]">
         <div className="relative flex w-[1100px] rounded-[24px] overflow-hidden shadow-[0px_4px_100px_3px_rgba(220,220,220,0.25)] bg-white">
@@ -292,8 +289,6 @@ export default function SignupPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
