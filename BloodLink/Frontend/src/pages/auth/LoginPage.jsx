@@ -3,53 +3,35 @@ import { Link, useNavigate } from "react-router-dom";
 import ellipse from "../../assets/Ellipse.png";
 import handsImage from "../../assets/handsImageBlood.png";
 
-const API_BASE = "http://localhost:5000"; // TODO: update for production
-
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Redirect already-logged-in users straight to their dashboard
+  // If a user is already logged in, skip the login page entirely
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+    const currentUser = localStorage.getItem("currentUser");
     if (currentUser) {
-      navigate(currentUser.role === "hospital" ? "/hospital/profile" : "/donor/profile");
+      navigate("/dashboard");
     }
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      // POST /auth/login
-      const res = await fetch(`${API_BASE}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim().toLowerCase(),
-          password,
-        }),
-      });
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        alert(err.message || "Invalid email or password");
-        return;
-      }
+    const matchedUser = users.find(
+      (u) =>
+        u.username === username.trim().toLowerCase() &&
+        u.password === password
+    );
 
-      const user = await res.json();
-
-      // Persist session so Navbar and protected routes can read the current user
-      localStorage.setItem("currentUser", JSON.stringify(user));
-
-      // Role-based redirect
-      navigate(user.role === "hospital" ? "/hospital/profile" : "/donor/profile");
-
-    } finally {
-      setLoading(false);
+    if (matchedUser) {
+      localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+      navigate("/");
+    } else {
+      alert("Invalid username or password");
     }
   };
 
@@ -77,13 +59,13 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-[20px] w-full max-w-[360px]">
               <div className="flex flex-col gap-[8px]">
                 <label className="font-['Roboto',sans-serif] text-[14px] text-[#3c3c3c]">
-                  Email
+                  Username
                 </label>
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Enter username"
                   className="px-[16px] py-[12px] rounded-[10px] border border-[#9FB8C4]/50 bg-[#eeeaea] font-['Roboto',sans-serif] text-[15px] focus:outline-none focus:border-[#D43545]"
                 />
               </div>
@@ -103,10 +85,9 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                disabled={loading}
-                className="bg-[rgba(242,7,11,0.63)] hover:bg-[rgba(242,7,11,0.8)] transition-colors text-white font-['Roboto',sans-serif] font-bold text-[16px] rounded-[10px] py-[14px] mt-[10px] disabled:opacity-60"
+                className="bg-[rgba(242,7,11,0.63)] hover:bg-[rgba(242,7,11,0.8)] transition-colors text-white font-['Roboto',sans-serif] font-bold text-[16px] rounded-[10px] py-[14px] mt-[10px]"
               >
-                {loading ? "Signing in..." : "Sign In"}
+                Sign In
               </button>
 
               <p className="font-['Roboto',sans-serif] text-[14px] text-[#3c3c3c] text-center">

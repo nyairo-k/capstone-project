@@ -101,17 +101,9 @@ class BloodRequest(db.Model):
         default="pending"
     )
 
-    # FK to hospitals.id — lets us filter a hospital's own requests via GET /requests?hospital_id=<id>
-    hospital_id = db.Column(
-        db.Integer,
-        db.ForeignKey("hospitals.id"),
-        nullable=True
-    )
 
-    # FK to donors.id — set when a donor accepts the request
     donor_id = db.Column(
         db.Integer,
-        db.ForeignKey("donors.id"),
         nullable=True
     )
 
