@@ -140,6 +140,8 @@ class Donor(db.Model):
     phone_number=db.Column(db.String(20))
     blood_type = db.Column(db.String(5), nullable=False)
     location = db.Column(db.String(100))
+    latitude = db.Column(db.Float, nullable=True)
+    longitude =db.Column(db.Float, nullable=True)
     role = db.Column(db.String(20), default="donor")
     is_available = db.Column(db.Boolean, default=True)
     last_donation_date = db.Column(db.Date, nullable=True)
@@ -148,12 +150,14 @@ class Donor(db.Model):
     
     def to_dict(self):
        return {
-          "id": self.id,
+        "id": self.id,
         "full_name": self.full_name,
         "email": self.email,
         "phone_number": self.phone_number,
         "blood_type": self.blood_type,
         "location": self.location,
+        "latitude": self.latitude,
+        "longitude": self.longitude,
         "role": self.role,
         "is_available": self.is_available,
         "last_donation_date": str(self.last_donation_date),

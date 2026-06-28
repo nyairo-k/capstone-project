@@ -15,7 +15,7 @@ export default function DonorDetailsPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://dummyjson.com/users/${id}`)
+    fetch(`http://localhost:5000/donors/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setDonor(data);
@@ -45,11 +45,12 @@ export default function DonorDetailsPage() {
         <p className="px-[60px] py-[40px] font-['Roboto',sans-serif] text-[18px] text-[#D43545]">
           Could not load donor details.
         </p>
+        <Footer />
       </div>
     );
   }
 
-  const { lat, lng } = donor.address.coordinates;
+  const hasCoordinates = donor.latitude && donor.longitude;
 
   return (
     <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
@@ -70,49 +71,61 @@ export default function DonorDetailsPage() {
               Donor Details
             </h2>
 
-            <img
-              src={donor.image}
-              alt={`${donor.firstName} ${donor.lastName}`}
-              className="size-[100px] rounded-full object-cover mb-[24px]"
-            />
-
             <div className="space-y-[14px] font-['Roboto',sans-serif] text-[16px] text-black">
               <p>
                 <span className="font-bold">Full Name:</span>{" "}
-                {donor.firstName} {donor.lastName}
-              </p>
-              <p>
-                <span className="font-bold">Gender:</span> {donor.gender}
+                {donor.full_name.charAt(0)}
               </p>
               <p>
                 <span className="font-bold">Blood Group:</span>{" "}
-                <span className="text-[#D43545] font-bold">{donor.bloodGroup}</span>
+                <span className="text-[#D43545] font-bold">{donor.blood_type}</span>
               </p>
               <p>
-                <span className="font-bold">Phone Number:</span> {donor.phone}
+                <span className="font-bold">Phone Number:</span> {donor.phone_number}
               </p>
               <p>
                 <span className="font-bold">Address/Location:</span>{" "}
-                {donor.address.address}, {donor.address.city},{" "}
-                {donor.address.state}
+                {donor.location}
+              </p>
+              <p>
+                <span className="font-bold">Available:</span>{" "}
+                <span className={donor.is_available ? "text-green-600 font-bold" : "text-[#D43545] font-bold"}>
+                  {donor.is_available ? "Yes" : "No"}
+                </span>
+              </p>
+              <p>
+                <span className="font-bold">Last Donation Date:</span>{" "}
+                {donor.last_donation_date || "Not provided"}
+              </p>
+              <p>
+                <span className="font-bold">Registered:</span>{" "}
+                {new Date(donor.created_at).toLocaleDateString()}
               </p>
             </div>
           </div>
 
           {/* Map */}
           <div className="flex-1 rounded-[12px] overflow-hidden shadow-[0px_4px_100px_3px_rgba(220,220,220,0.25)]">
+            {hasCoordinates ? (
             <MapContainer
-              center={[lat, lng]}
+              center={[donor.latitude, donor.longitude]}
               zoom={12}
               style={{ height: "100%", minHeight: "360px", width: "100%" }}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={[lat, lng]}>
+              <Marker position={[donor.latitude, donor.longitude]}>
                 <Popup>
-                  {donor.firstName} {donor.lastName} — {donor.bloodGroup}
+                  {donor.full_name} - {donor.blood_type}
                 </Popup>
               </Marker>
             </MapContainer>
+            ) : (
+              <div className="h-full min-h-[360px] bg-white flex items-center justify-center">
+                <p className="font-['Roboto', sans-serif] text-[16px] text-[#3c3c3c]">
+                  Location not available for this donor.
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
@@ -132,6 +145,8 @@ export default function DonorDetailsPage() {
           </Link>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
