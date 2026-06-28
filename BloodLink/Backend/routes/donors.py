@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import requests as http_requests
 from extensions import db
 from models import Donor
 
@@ -28,13 +29,35 @@ def create_donor():
     if existing:
         return jsonify({"error": "Email already registered"}), 409
     
+    # Geocode location to get coordinates
+    latitude = None
+    longitude = None
+    location = data.get("location")
+
+    if location:
+        try:
+            geo_response = http_requests.get(
+                "https://nominatim.openstreetmap.org/search",
+                params={"q": location, "format": "json", "limit": 1},
+                headers={"User-Agent": "BloodLink/1.0"}
+            )
+
+            geo_data = geo_response.json()
+            if geo_data:
+                latitude = float(geo_data[0]["lat"])
+                longitude = float(geo_data[0]["lon"])
+        except Exception:
+            pass       
+    
     donor = Donor(
         full_name=data["full_name"],
         email=data["email"],
         password_hash=data["password_hash"],
         phone_number=data.get("phone_number"),
         blood_type=data["blood_type"],
-        location=data.get("location"),
+        location=location,
+        latitude=latitude,
+        longitude=longitude,
         is_available=data.get("is_available", True),
         last_donation_date=data.get("last_donation_date")
         
@@ -68,6 +91,28 @@ def update_donor(id):
 
     if "last_donation_date" in data:
         donor.last_donation_date=data["last_donation_date"]
+
+    if "email" in data:
+        existing = Donor.query.filter_by(email=data["email"]).first()
+        if existing and existing.id != id:
+            return jsonify({"error": "Email already in use"}), 409
+        donor.email = data["email"]
+
+    # if location is updated, re-geocode
+    if "location" in data:
+        donor.location = data["location"]
+        try:
+            geo_response = http_requests.get(
+                "https://nominatim.openstreetmap.org/search",
+                params={"q": data["location"], "format": "json", "limit": 1},
+                headers={"User-Agent": "BloodLink/1.0"}
+            )
+            geo_data = geo_response.json()
+            if geo_data:
+                donor.latitude = float(geo_data[0]["lat"])
+                donor.longitude = float(geo_data[0]["lon"])
+        except Exception as e:
+            print("Geocoding error:", e)                
 
 
     db.session.commit()

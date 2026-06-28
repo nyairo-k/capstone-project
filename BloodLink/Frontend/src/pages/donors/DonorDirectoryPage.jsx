@@ -1,7 +1,4 @@
 import { useState, useEffect } from "react";
-// import { Link, useLocation } from "react-router-dom";
-
-import savesLives from "../../assets/saves-lives.jpeg";
 import SearchBar from "../../components/SearchBar";
 import Navbar from "../../components/Navbar";
 import Footer from  "../../components/Footer";
@@ -17,10 +14,10 @@ export default function DonorDirectoryPage() {
   const [bloodGroup, setBloodGroup] = useState("All");
 
   useEffect(() => {
-    fetch("https://dummyjson.com/users?limit=100")
+    fetch("http://localhost:5000/donors")
       .then((res) => res.json())
       .then((data) => {
-        setDonors(data.users);
+        setDonors(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -30,9 +27,9 @@ export default function DonorDirectoryPage() {
   }, []);
 
   const filteredDonors = donors.filter((donor) => {
-    const fullName = `${donor.firstName} ${donor.lastName}`.toLowerCase();
+    const fullName = donor.full_name.toLowerCase();
     const matchesSearch = fullName.includes(search.toLowerCase());
-    const matchesBloodGroup = bloodGroup === "All" || donor.bloodGroup === bloodGroup;
+    const matchesBloodGroup = bloodGroup === "All" || donor.blood_type === bloodGroup;
     return matchesSearch && matchesBloodGroup;
   });
 
@@ -76,6 +73,8 @@ export default function DonorDirectoryPage() {
           </div>
         )}
       </section>
+      
+      <Footer/>
     </div>
   );
 }

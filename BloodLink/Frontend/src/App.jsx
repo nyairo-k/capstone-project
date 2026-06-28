@@ -6,11 +6,14 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import DonorDirectoryPage from "./pages/donors/DonorDirectoryPage";
 import DonorDetailsPage from "./pages/donors/DonorDetailsPage";
+import DonorProfilePage from "./pages/donors/DonorProfilePage";
+import IncomingRequestsPage from "./pages/donors/IncomingRequestsPage";
 import { Toaster } from 'react-hot-toast';
 import HospitalProfilePage from "./pages/hospitals/HospitalProfilePage";
 import BloodRequestForm from "./pages/requests/BloodRequestForm";
 import RequestListPage from "./pages/requests/RequestListPage";
 import HospitalDashboard from "./pages/hospitals/HospitalDashboard";
+
 function App() {
   return (
     <>
@@ -26,6 +29,8 @@ function App() {
 
         <Route path="/donors" element={<DonorDirectoryPage />} />
         <Route path="/donors/:id" element={<DonorDetailsPage />} />
+        <Route path="/donor/profile" element={<DonorProfilePage />} />
+        <Route path="/donor/requests" element={< IncomingRequestsPage/>} />
         <Route path="/hospital/profile/:id" element={<HospitalProfilePage />} />
         <Route path="/requests" element={<RequestListPage />} />
         <Route path="/requests/create" element={<BloodRequestForm />} />
