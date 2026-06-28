@@ -6,6 +6,9 @@ import LoginPage from "./pages/auth/LoginPage";
 import SignupPage from "./pages/auth/SignupPage";
 import DonorDirectoryPage from "./pages/donors/DonorDirectoryPage";
 import DonorDetailsPage from "./pages/donors/DonorDetailsPage";
+import DonorProfilePage from "./pages/donor/DonorProfilePage";
+import HospitalProfilePage from "./pages/hospital/HospitalProfilePage";
+import HospitalRequestsPage from "./pages/hospital/HospitalRequestsPage";
 import { Toaster } from 'react-hot-toast';
 
 function App() {
@@ -23,9 +26,13 @@ function App() {
 
       <Route path="/donors" element={<DonorDirectoryPage />} />
       <Route path="/donors/:id" element={<DonorDetailsPage />} />
+
+      <Route path="/donor/profile" element={<DonorProfilePage />} />
+      <Route path="/hospital/profile" element={<HospitalProfilePage />} />
+      <Route path="/hospital/requests" element={<HospitalRequestsPage />} />
     </Routes>
     </>
-   
+
   );
 }
 
