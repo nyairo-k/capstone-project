@@ -8,6 +8,12 @@ const PUBLIC_LINKS = [
   { label: "About Us", path: "/about" },
 ];
 
+const DONOR_LINKS = [
+  { label: "Home", path: "/" },
+  { label: "Find Donors", path: "/donors" },
+  { label: "My Profile", path: "/donor/profile" },
+  { label: "Blood Requests", path: "/donor/requests" },
+];
 
 const HOSPITAL_LINKS = [
   { label: "Dashboard", path: "/hospital/dashboard" },
@@ -26,6 +32,8 @@ export default function Navbar({ role = "public" }) {
 
   const links = role === "hospital"
     ? HOSPITAL_LINKS
+    : role === "donor"
+    ? DONOR_LINKS
     : PUBLIC_LINKS;
 
 
