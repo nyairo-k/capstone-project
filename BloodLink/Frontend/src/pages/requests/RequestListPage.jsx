@@ -125,7 +125,7 @@ function RequestListPage() {
 
         <div className="bg-[#eeeaea] min-h-screen w-full">
 
-            <Navbar role="hospital" />
+            <Navbar />
 
             <section className="px-[60px] pt-[70px] pb-[80px]">
 

@@ -37,7 +37,7 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="bg-[#eeeaea] w-[1440px] mx-auto">
+    <div className="bg-[#eeeaea] min-h-screen w-full">
       <Navbar />
 
       {/* Hero */}
