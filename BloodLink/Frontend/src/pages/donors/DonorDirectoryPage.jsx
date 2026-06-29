@@ -35,7 +35,7 @@ export default function DonorDirectoryPage() {
 
   return (
     <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-      <Navbar />
+      <Navbar role="donor" />
 
       <section className="px-[60px] pt-[40px] pb-[80px]">
         <h1 className="font-['Manrope',sans-serif] font-bold text-[40px] text-black mb-[30px]">
