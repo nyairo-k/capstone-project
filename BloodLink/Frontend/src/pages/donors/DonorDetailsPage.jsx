@@ -30,10 +30,11 @@ export default function DonorDetailsPage() {
   if (loading) {
     return (
       <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-        <Navbar />
+        <Navbar role="donor" />
         <p className="px-[60px] py-[40px] font-['Roboto',sans-serif] text-[18px] text-[#3c3c3c]">
           Loading donor details...
         </p>
+        <Footer />
       </div>
     );
   }
@@ -41,7 +42,7 @@ export default function DonorDetailsPage() {
   if (error || !donor) {
     return (
       <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-        <Navbar />
+        <Navbar role="donor" />
         <p className="px-[60px] py-[40px] font-['Roboto',sans-serif] text-[18px] text-[#D43545]">
           Could not load donor details.
         </p>
@@ -74,7 +75,7 @@ export default function DonorDetailsPage() {
             <div className="space-y-[14px] font-['Roboto',sans-serif] text-[16px] text-black">
               <p>
                 <span className="font-bold">Full Name:</span>{" "}
-                {donor.full_name.charAt(0)}
+                {donor.full_name}
               </p>
               <p>
                 <span className="font-bold">Blood Group:</span>{" "}

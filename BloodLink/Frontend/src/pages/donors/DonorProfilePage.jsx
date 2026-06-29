@@ -65,7 +65,7 @@ export default function DonorProfilePage(){
     if(loading) {
         return(
             <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-                <Navbar />
+                <Navbar role="donor" />
                 <p className="px-[60px] py-[40px] font-['Roboto', sans-serif] text-[18px] text-[#3c3c3c]">
                     Loading profile...
                 </p>
@@ -77,7 +77,7 @@ export default function DonorProfilePage(){
     if(error || !donor) {
         return (
             <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-                <Navbar />
+                <Navbar role="donor" />
                 <p className="px-[60px] py-[40px] font-['Roboto',sans-serif] text-[18px] text-[#D43545]">
                     Could not load profile.
                 </p>
@@ -87,7 +87,7 @@ export default function DonorProfilePage(){
     }
     return (
     <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-      <Navbar />
+      <Navbar role="donor" />
 
       <section className="px-[60px] pt-[40px] pb-[80px]">
         <h1 className="font-['Manrope',sans-serif] font-bold text-[40px] text-black mb-[30px]">
