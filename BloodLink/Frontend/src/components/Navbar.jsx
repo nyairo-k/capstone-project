@@ -7,7 +7,6 @@ const PUBLIC_LINKS = [
   { label: "About Us", path: "/about" },
 ];
 
-
 const HOSPITAL_LINKS = [
   { label: "Dashboard", path: "/hospital/dashboard" },
   { label: "Profile", path: "/hospital/profile" },
@@ -25,11 +24,19 @@ export default function Navbar() {
 
   const location = useLocation();
 
+  const user = JSON.parse(localStorage.getItem("currentUser"));
 
-  const links = role === "hospital"
-    ? HOSPITAL_LINKS
-    : PUBLIC_LINKS;
+  const role = user?.role;
 
+  let links = PUBLIC_LINKS;
+
+  if (role === "hospital") {
+    links = HOSPITAL_LINKS;
+  }
+
+  if (role === "donor") {
+    links = DONOR_LINKS;
+  }
 
 
   return (
