@@ -167,7 +167,7 @@ function BloodRequestForm() {
         <div className="bg-[#eeeaea] min-h-screen w-full">
 
 
-            <Navbar role="hospital" />
+            <Navbar />
 
 
 

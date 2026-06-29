@@ -13,6 +13,7 @@ import HospitalProfilePage from "./pages/hospitals/HospitalProfilePage";
 import BloodRequestForm from "./pages/requests/BloodRequestForm";
 import RequestListPage from "./pages/requests/RequestListPage";
 import HospitalDashboard from "./pages/hospitals/HospitalDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -30,11 +31,68 @@ function App() {
         <Route path="/donors" element={<DonorDirectoryPage />} />
         <Route path="/donors/:id" element={<DonorDetailsPage />} />
         <Route path="/donor/profile" element={<DonorProfilePage />} />
-        <Route path="/donor/requests" element={< IncomingRequestsPage/>} />
-        <Route path="/hospital/profile/:id" element={<HospitalProfilePage />} />
-        <Route path="/requests" element={<RequestListPage />} />
-        <Route path="/requests/create" element={<BloodRequestForm />} />
-        <Route path="hospital/dashboard" element={<HospitalDashboard />} />
+        <Route path="/donor/requests" element={<IncomingRequestsPage />} />
+        { /* hospital routes*/}
+        <Route
+
+          path="/hospital/profile"
+
+          element={
+
+            <ProtectedRoute role="hospital">
+
+              <HospitalProfilePage />
+
+            </ProtectedRoute>
+
+          }
+
+        />
+        <Route
+
+          path="/requests"
+
+          element={
+
+            <ProtectedRoute role="hospital">
+
+              <RequestListPage />
+
+            </ProtectedRoute>
+
+          }
+
+        />
+        <Route
+
+          path="/requests/create"
+
+          element={
+
+            <ProtectedRoute role="hospital">
+
+              <BloodRequestForm />
+
+            </ProtectedRoute>
+
+          }
+
+        />
+        <Route
+
+          path="/hospital/dashboard"
+
+          element={
+
+            <ProtectedRoute role="hospital">
+
+              <HospitalDashboard />
+
+            </ProtectedRoute>
+
+          }
+
+        />
       </Routes>
     </>
 

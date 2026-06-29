@@ -1,42 +1,52 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ellipse from "../../assets/Ellipse.png";
+import api from "../../api/api.js";
 import handsImage from "../../assets/handsImageBlood.png";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // If a user is already logged in, skip the login page entirely
-  useEffect(() => {
-    const currentUser = localStorage.getItem("currentUser");
-    if (currentUser) {
-      navigate("/dashboard");
-    }
-  }, [navigate]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
 
-    const matchedUser = users.find(
-      (u) =>
-        u.username === username.trim().toLowerCase() &&
-        u.password === password
-    );
+      const response = await api.post("/login", {
+        email: email,
+        password
+      });
+      console.log(response.data);
 
-    if (matchedUser) {
-      localStorage.setItem("currentUser", JSON.stringify(matchedUser));
-      navigate("/");
-    } else {
-      alert("Invalid username or password");
+
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify(response.data)
+      );
+
+
+      if (response.data.role === "hospital") {
+        navigate("/hospital/dashboard");
+      }
+      else if (response.data.role === "donor") {
+        navigate("/");
+      }
+
+
+    } catch (error) {
+
+      console.log(error);
+      alert(
+        error.response?.data?.message || "Login failed"
+      );
+
     }
-  };
 
+  };
   return (
-    <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
+    <div className="bg-[#eeeaea] min-h-screen w-full">
       <section className="flex items-center justify-center py-[60px]">
         <div className="relative flex w-[1100px] h-[600px] rounded-[24px] overflow-hidden shadow-[0px_4px_100px_3px_rgba(220,220,220,0.25)] bg-white">
 
@@ -59,13 +69,13 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-[20px] w-full max-w-[360px]">
               <div className="flex flex-col gap-[8px]">
                 <label className="font-['Roboto',sans-serif] text-[14px] text-[#3c3c3c]">
-                  Username
+                  Email
                 </label>
                 <input
                   type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter username"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter Email"
                   className="px-[16px] py-[12px] rounded-[10px] border border-[#9FB8C4]/50 bg-[#eeeaea] font-['Roboto',sans-serif] text-[15px] focus:outline-none focus:border-[#D43545]"
                 />
               </div>

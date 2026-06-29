@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import SearchBar from "../../components/SearchBar";
 import Navbar from "../../components/Navbar";
-import Footer from  "../../components/Footer";
+import Footer from "../../components/Footer";
 import BloodGroupFilter from "../../components/BloodGroupFilter";
 import DonorCard from "../../components/DonorCard";
 
@@ -34,8 +34,8 @@ export default function DonorDirectoryPage() {
   });
 
   return (
-    <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-      <Navbar role="donor" />
+    <div className="bg-[#eeeaea] min-h-screen w-full">
+      <Navbar />
 
       <section className="px-[60px] pt-[40px] pb-[80px]">
         <h1 className="font-['Manrope',sans-serif] font-bold text-[40px] text-black mb-[30px]">
@@ -73,8 +73,8 @@ export default function DonorDirectoryPage() {
           </div>
         )}
       </section>
-      
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }

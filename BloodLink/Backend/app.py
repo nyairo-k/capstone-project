@@ -21,6 +21,7 @@ CORS(app)
 from routes.hospitals import hospital_routes
 from routes.requests import request_routes
 from routes.donors import donor_routes
+from routes.auth import auth_routes
 
 app.register_blueprint(
     hospital_routes
@@ -33,7 +34,9 @@ app.register_blueprint(
 app.register_blueprint(
     donor_routes
 )
-
+app.register_blueprint(
+    auth_routes
+)
 
 
 @app.route("/")

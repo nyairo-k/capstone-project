@@ -54,8 +54,8 @@ export default function DonorDetailsPage() {
   const hasCoordinates = donor.latitude && donor.longitude;
 
   return (
-    <div className="bg-[#eeeaea] w-[1440px] mx-auto min-h-screen">
-      <Navbar role="donor" />
+    <div className="bg-[#eeeaea] min-h-screen w-full">
+      <Navbar />
 
       <section className="px-[60px] pt-[40px] pb-[80px]">
         <Link
@@ -108,18 +108,18 @@ export default function DonorDetailsPage() {
           {/* Map */}
           <div className="flex-1 rounded-[12px] overflow-hidden shadow-[0px_4px_100px_3px_rgba(220,220,220,0.25)]">
             {hasCoordinates ? (
-            <MapContainer
-              center={[donor.latitude, donor.longitude]}
-              zoom={12}
-              style={{ height: "100%", minHeight: "360px", width: "100%" }}
-            >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={[donor.latitude, donor.longitude]}>
-                <Popup>
-                  {donor.full_name} - {donor.blood_type}
-                </Popup>
-              </Marker>
-            </MapContainer>
+              <MapContainer
+                center={[donor.latitude, donor.longitude]}
+                zoom={12}
+                style={{ height: "100%", minHeight: "360px", width: "100%" }}
+              >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker position={[donor.latitude, donor.longitude]}>
+                  <Popup>
+                    {donor.full_name} - {donor.blood_type}
+                  </Popup>
+                </Marker>
+              </MapContainer>
             ) : (
               <div className="h-full min-h-[360px] bg-white flex items-center justify-center">
                 <p className="font-['Roboto', sans-serif] text-[16px] text-[#3c3c3c]">

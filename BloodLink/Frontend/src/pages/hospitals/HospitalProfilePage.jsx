@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import api from "../../api/api";
 import Navbar from "../../components/Navbar";
@@ -7,9 +6,13 @@ import Footer from "../../components/Footer";
 
 
 function HospitalProfilePage() {
+    const user = JSON.parse(
+        localStorage.getItem("user")
+    );
+    const id = user.id;
 
 
-    const { id } = useParams();
+
 
 
     const [hospital, setHospital] = useState(null);
@@ -141,7 +144,7 @@ function HospitalProfilePage() {
         <div className="bg-[#eeeaea] min-h-screen w-full">
 
 
-            <Navbar role="hospital" />
+            <Navbar />
 
             <main className="px-[60px] py-[70px]">
 
