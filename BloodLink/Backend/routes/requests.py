@@ -183,6 +183,11 @@ def update_request(id):
         blood_request.location
     )
 
+    blood_request.donor_id = data.get(
+        "donor_id",
+        blood_request.donor_id
+    )
+
 
 
     db.session.commit()
