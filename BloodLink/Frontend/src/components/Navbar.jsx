@@ -12,12 +12,14 @@ const HOSPITAL_LINKS = [
   { label: "Profile", path: "/hospital/profile" },
   { label: "Create Request", path: "/requests/create" },
   { label: "Requests", path: "/requests" },
+  { label: "About Us", path: "/about" },
 ];
 
 const DONOR_LINKS = [
   { label: "Dashboard", path: "/" },
   { label: "Profile", path: "/donor/profile" },
   { label: "Blood Requests", path: "/donor/requests" },
+  { label: "About Us", path: "/about" }
 ];
 
 export default function Navbar() {
@@ -79,7 +81,7 @@ export default function Navbar() {
           localStorage.removeItem("currentUser");
         }}
 
-        className="bg-[rgba(242,7,11,0.63)] text-white font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
+        className="bg-[rgba(242,7,11,0.63)] text-white hover:-translate-y-0.5 font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
       >
 
         Logout
