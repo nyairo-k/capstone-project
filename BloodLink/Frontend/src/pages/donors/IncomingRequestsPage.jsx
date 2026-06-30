@@ -23,18 +23,18 @@ export default function IncomingRequestsPage() {
   }, []);
 
   const handleRespond = (requestId, response) => {
-    fetch(`http://localhost:5000/requests/${requestId}/respond`, {
-      method: "POST",
+    fetch(`http://localhost:5000/requests/${requestId}`, {
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        response,
+        status: response,
         donor_id: LOGGED_IN_DONOR_ID,
       }),
     })
       .then((res) => res.json())
       .then((updated) => {
         setRequests((prev) =>
-          prev.map((r) => (r.id === updated.id ? updated : r))
+          prev.map((r) => (r.id === updated.request.id ? updated.request : r))
         );
       })
       .catch((err) => console.error(err));
