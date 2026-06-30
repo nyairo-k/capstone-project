@@ -74,7 +74,7 @@ export default function SignupPage() {
 
     <div className="bg-[#eeeaea] min-h-screen w-full flex items-center justify-center px-6 py-10">
 
-      <section className="relative flex w-full max-w-[1200px] min-h-[650px] bg-white rounded-[30px] overflow-hidden shadow-xl">
+      <section className="relative flex w-full max-w-[1200px] min-h-[500px] bg-white rounded-[30px] overflow-hidden shadow-xl">
 
         <img src={ellipse} className="absolute -top-32 -left-32 w-[420px]" />
 
