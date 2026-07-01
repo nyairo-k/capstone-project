@@ -18,8 +18,9 @@ migrate.init_app(app, db)
 
 CORS(
     app,
-origins=[
-        "http://localhost:5173"
+    origins=[
+        "http://localhost:5173",
+        "https://capstone-project-1-fw4z.onrender.com"
     ]
 )
 
