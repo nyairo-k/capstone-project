@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
+import os
 
 from config import Config
 from extensions import db, migrate
@@ -15,8 +16,12 @@ db.init_app(app)
 migrate.init_app(app, db)
 
 
-CORS(app)
-
+CORS(
+    app,
+origins=[
+        "http://localhost:5173"
+    ]
+)
 
 from routes.hospitals import hospital_routes
 from routes.requests import request_routes
