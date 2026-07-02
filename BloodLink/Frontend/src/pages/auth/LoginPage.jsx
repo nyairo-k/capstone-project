@@ -55,14 +55,6 @@ export default function LoginPage() {
 
               <p className="text-[14px] text-[#3c3c3c] text-center">Don't have an account? <Link to="/signup" className="text-[#D43545] font-bold">Sign up now</Link></p>
 
-              <div className="flex items-center gap-[12px]"><div className="flex-1 h-[1px] bg-[#9FB8C4]/50" /><span className="text-[13px]">or</span><div className="flex-1 h-[1px] bg-[#9FB8C4]/50" /></div>
-
-              <button type="button" className="flex items-center justify-center gap-[12px] border border-[#9FB8C4]/50 rounded-[10px] py-[12px] text-[15px] hover:bg-[#eeeaea]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
-                  <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" />
-                </svg>
-                Sign in with Google
-              </button>
 
             </form>
           </div>

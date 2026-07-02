@@ -1,13 +1,12 @@
-# BloodLink: Blood Donation & Emergency Matching System
+# BloodLink: Blood Donation & Emergency Matching System - General Documentation
+
+## (Detailed Readme's in each folder)
 
 ## Table of Contents
 - [Project Description](#project-description)
 - [Technologies Used](#technologies-used)
 - [Setup Instructions](#setup-instructions)
 - [Run Instructions](#run-instructions)
-- [Pages & Routes](#pages--routes)
-- [API Used](#api-used)
-- [Folder Structure](#folder-structure)
 - [Author](#author)
 
 ## Project Description
@@ -22,67 +21,30 @@ This phase focuses on a React frontend integrated with the DummyJSON Users API, 
 - Leaflet / React-Leaflet
 - React Hot Toast
 - Vite
-- DummyJSON Users API
+- PostgreSQL
+- Render
 
 ## Setup Instructions
 
 1. Clone the repository - 
-2. Navigate into the project folder - cd BloodLink
+2. Navigate into the Frontend project folder - cd BloodLink, cd Frontend
 3. Install dependencies - npm install
+
+2. Navigate into the Backend project folder - cd BloodLink, cd Backend
+3. Install dependencies - pip install -r requirements.txt
+
    
 ## Run Instructions
+Frontend/
 npm run dev
-
 The app will be available at: http://localhost:5173
 
-## Pages & Routes
+Backend/
+python app.py
+The app will be available at: http://localhost:5000
 
-| Route | Description |
-|-------|-------------|
-| / | Home page |
-| /about | About page |
-| /login | Login page |
-| /signup | Signup page |
-| /donors | Donor Directory — search and filter donors by blood group |
-| /donors/:id | Donor Details — full donor info and location map |
-
-## API Used
-
-DummyJSON Users API
-URL: https://dummyjson.com/users
-Documentation: https://dummyjson.com/docs/users
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /users | Retrieve all donor records |
-| GET | /users/:id | Retrieve a single donor's details |
-| GET | /users/search?q= | Search donors by name |
-
-## Folder Structure
-BloodLink/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   │   ├── Navbar.jsx
-│   │   ├── Footer.jsx
-│   │   ├── SearchBar.jsx
-│   │   ├── BloodGroupFilter.jsx
-│   │   └── DonorCard.jsx
-│   ├── pages/
-│   │   ├── HomePage.jsx
-│   │   ├── AboutPage.jsx
-│   │   ├── auth/
-│   │   │   ├── LoginPage.jsx
-│   │   │   └── SignupPage.jsx
-│   │   └── donors/
-│   │       ├── DonorDirectoryPage.jsx
-│   │       └── DonorDetailsPage.jsx
-│   ├── App.jsx
-│   └── main.jsx
-├── package.json
-└── README.md
-
-## Website URL: https://capstone-project-ten-flax.vercel.app/
+## Website URL: 
+https://capstone-project-1-fw4z.onrender.com
 
 ## Authors
 Agnes Ng'ang'a

@@ -1,594 +1,248 @@
-BloodLink — Frontend Progress Notes
+# BloodLink Frontend
+## Overview
 
-# BloodLink System Implementation Report
-## Backend Implementation
+The frontend is built using **React** with **Vite** and communicates with the Flask backend through a centralized Axios API client.
 
-The backend was built using Flask with SQLAlchemy as the ORM layer and PostgreSQL as the database.
+The application provides two primary user experiences:
 
-The backend is responsible for:
+- **Donor Portal**
+- **Hospital Portal**
 
-- Managing database models
-- Handling application logic
-- Receiving frontend requests
-- Returning JSON responses
-- Connecting the frontend with stored data
+Authentication determines which interface is presented after login.
 
+# Project Structure
+Frontend
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── api/
+│   │     └── api.js
+│   │
+│   ├── assets/
+│   │
+│   ├── components/
+│   │
+│   ├── pages/
+│   │     ├── auth/
+│   │     ├── donors/
+│   │     ├── hospitals/
+│   │     └── requests/
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   ├── App.css
+│   └── index.css
+│
+├── package.json
+└── vite.config.js
 
-The backend structure separates responsibilities into:
+# api/
+Contains the Axios configuration used throughout the application.
 
-- Application setup
-- Database configuration
-- Models
-- Routes
+### api.js
+Creates a reusable Axios instance with the backend API URL.
 
+All pages import this instance instead of making raw fetch requests.
 
----
+Responsibilities include:
 
-# Flask Application Setup
+- Central API endpoint configuration
+- Simplified HTTP requests
+- Easy switching between development and production servers
 
-## app.py
+# assets
+Stores static resources used by the application.
+Examples include:
 
-The `app.py` file is the main entry point of the backend.
+- Images
+- Logos
+- Decorative graphics
+- Background illustrations
 
-It is responsible for:
+# components/
+Reusable UI components shared across multiple pages.
 
-- Creating the Flask application instance
-- Initializing extensions
-- Registering route blueprints
-- Enabling CORS communication with React frontend
-- Running the server
+### Navbar.jsx
+Provides navigation throughout the application.
 
+Navigation changes depending on whether the current user is a donor or hospital.
 
-The application flow is:
+### Footer.jsx
+Shared footer displayed across most pages.
 
+### BloodGroupFilter.jsx
+Reusable filter component used when displaying blood requests.
+Allows filtering requests by blood group.
 
-React Frontend
+### SearchBar.jsx
+Search component used for filtering displayed information.
 
-    |
+### DonorCard.jsx
+Displays donor information in a reusable card layout.
 
-    |
+### ProtectedRoute.jsx
+Protects authenticated pages.
 
-Flask Application (app.py)
+Checks for the logged-in user stored in Local Storage before allowing access.
 
-    |
+Redirects unauthenticated users to the login page.
 
-    |
+# pages/
+Contains the application's main screens.
 
-Routes
+Pages are grouped by functionality.
 
-    |
+## auth/
+Authentication screens.
 
-    |
+### LoginPage.jsx
+Handles:
 
-Database Models
+- User login
+- Authentication requests
+- Local storage of authenticated user
+- Navigation based on user role
 
-    |
+### SignupPage.jsx
+Handles account registration for:
 
-    |
+- Donors
+- Hospitals
 
-PostgreSQL
+Validates user input before submitting to the backend.
 
+## donors/
+Pages available to donor users.
 
+### DonorDirectoryPage.jsx
+Displays registered donors.
 
----
+Supports searching and browsing donor information.
 
-# Database Configuration
+### DonorDetailsPage.jsx
+Displays detailed information about a selected donor.
 
-## extensions.py
 
-The database connection is separated into its own file.
+### DonorProfilePage.jsx
+Allows donors to:
 
-The SQLAlchemy instance is created here:
+- View their profile
+- Edit personal information
+- Update profile details
 
+Changes are synchronized with the backend.
 
-db = SQLAlchemy()
+### IncomingRequestsPage.jsx
+Displays active blood requests available for donors.
 
+Donors can:
 
+- View request information
+- Accept requests
+- Decline requests
 
-This allows all models and routes to use the same database connection without creating multiple instances.
+Updates request status through backend API endpoints.
 
+## hospitals/
+Pages available to hospitals.
 
-The connection flow is:
+# HospitalDashboard.jsx
 
+Main dashboard after hospital login.
 
-extensions.py
+Provides quick access to hospital features.
 
-  |
+### HospitalProfilePage.jsx
+Displays hospital profile information.
 
-  |
+Supports editing and updating hospital details.
 
-models.py
+## requests/
 
-  |
+Blood  request management.
 
-  |
+### BloodRequestForm.jsx
+\
+Allows hospitals to create new blood requests.
 
-routes
+Captures:
 
-  |
-
-  |
-
-PostgreSQL Database
-
-
-
----
-
-# Database Models
-
-## models.py
-
-All database tables are represented as Python classes.
-
-SQLAlchemy converts these classes into database tables.
-
-
-The main models created are:
-
-
-## Hospital Model
-
-Represents registered hospitals.
-
-Stored information includes:
-
-- Hospital name
-- Email
-- Password hash
-- Contact information
+- Blood type
+- Units required
+- Urgency
 - Location
-- User role
+- Contact information
 
 
-The model contains timestamps:
+### RequestListPage.jsx
+Displays blood requests created by hospitals.
 
-- created_at
-- updated_at
+Supports viewing current request status and updates.
 
+## General Pages
+### HomePage.jsx
 
-These automatically record when a hospital record is created or modified.
+Landing page for the BloodLink platform.
 
+Introduces the project and provides navigation to core features.
 
----
+### AboutPage.jsx
+Provides general information about BloodLink, its purpose, and the importance of blood donation.
 
-## BloodRequest Model
 
-Represents blood requests created by hospitals.
+# App.jsx
+Defines the application's routing structure.
 
+Responsible for:
 
-The request stores:
+- Route definitions
+- Protected routes
+- Navigation between pages
 
-- requester name
-- hospital name
-- blood type required
-- number of units
-- urgency level
-- request status
-- donor assignment
-- contact information
-- location
+# main.jsx
+Application entry point.
 
+Initializes:
 
-Currently, the relationship between Hospital and BloodRequest is handled using the hospital name field.
+- React
+- Router
+- Global styling
 
+Renders the application into the browser.
 
-The current database structure:
+--
+# Styling
+Styling is primarily implemented using:
 
+- Tailwind CSS utility classes
+- Global styles in:
+  - App.css
+  - index.css
 
-Hospital
+Pages combine reusable components with responsive layouts to provide a consistent user experience.
+# Authentication Flow
+Authentication is handled by the backend API.
 
-|
-|
+After a successful login:
 
-BloodRequest
+- User information is stored in Local Storage.
+- The stored role determines which dashboard or interface is displayed.
+- Protected routes prevent unauthenticated access to secured pages.
 
-|
-|
+# Backend Communication
 
-hospital_name
+All communication with the backend is performed through the centralized Axios instance.
 
+Current functionality includes:
 
-
-The hospital name is stored directly in the blood request table.
-
-
-This was implemented to avoid dependency on hospital IDs before the authentication/profile system was connected.
-
-
----
-
-# Database Relationship Handling
-
-Initially the system was designed to use:
-
-
-Hospital.id
-
-  |
-
-  |
-
-BloodRequest.hospital_id
-
-
-
-using a foreign key relationship.
-
-
-However, this caused issues because the frontend was not yet retrieving the logged-in hospital profile.
-
-The implementation was changed to:
-
-
-BloodRequest
-
-hospital_name
-
-
-
-This allows the request process to work independently while the authentication flow is being developed.
-
-
----
-
-# Route Handling
-
-Backend routes are separated into blueprint files.
-
-
-Example:
-
-
-routes/
-
-requests.py
-
-
-The blueprint allows Flask to organize different system features separately.
-
-
-The request route file handles:
-
-- Creating blood requests
-- Retrieving requests
-- Updating requests
-- Deleting requests
-
-
-The route receives JSON data from React, processes it, interacts with SQLAlchemy models, and returns JSON responses.
-
-
----
-
-# Frontend Implementation
-
-
-The frontend is built using React.
-
-The structure separates:
-
-- Reusable components
-- Pages
-- API configuration
-
-
-The frontend communicates with Flask using Axios.
-
-
----
-
-# API Configuration
-
-## api.js / api.jsx
-
-The Axios configuration is centralized in one location.
-
-
-Instead of writing:
-
-
-axios.post(
-"http://127.0.0.1:5000/requests"
-)
-
-
-
-in every component, the application uses:
-
-
-
-api.post("/requests")
-
-
-
-The API file contains:
-
-- Backend base URL
-- Axios instance configuration
-
-
-The communication flow:
-
-
-
-React Component
-
-    |
-
-    |
-
-api.js
-
-    |
-
-    |
-
-Flask Backend
-
-    |
-
-    |
-
-Database
-
-
-
-This prevents repeated backend URLs throughout the project.
-
-
----
-
-# Navbar Implementation
-
-
-## Navbar.jsx
-
-
-The Navbar was designed to support multiple user roles.
-
-
-The component accepts a role property:
-
-
-Example:
-
-<Navbar role="hospital"/> ```
-
-The role determines which navigation links are displayed.
-
-The purpose is to allow separate navigation experiences for:
-
-Hospitals
-Donors
-Other users
-
-The structure:
-
-Navbar
-
-    |
-
-    |
-
-Check role
-
-    |
-
-    |
-
-Display correct navigation
-
-The hospital side navigation contains hospital-specific pages.
-
-The donor side will use a different navigation structure.
-
-Routing Handling
-
-The application routing is handled through React Router.
-
-Routes connect URLs to components.
-
-The flow:
-
-Browser URL
-
-      |
-
-      |
-
-React Router
-
-      |
-
-      |
-
-Component
-
-Example:
-
-/hospital/profile/:id
-
-loads the hospital profile component.
-
-Blood Request Form Implementation
-
-The blood request form uses React state management.
-
-The form data is stored inside:
-
-useState()
-
-The state object contains:
-
-requester_name
-
-hospital_name
-
-blood_type_needed
-
-units_needed
-
-urgency_level
-
-contact_phone
-
-location
-
-When the user types:
-
-Input
-
- |
-
- |
-
-handleChange()
-
- |
-
- |
-
-Update formData
-
-The updated data is submitted to the backend using Axios.
-
-Form Validation
-
-Validation is performed before sending data.
-
-The form checks:
-
-Required fields
-Valid number of units
-Valid phone number
-
-If validation fails:
-
-React Hot Toast displays an error message.
-
-If successful:
-
-A success toast is shown after the request is created.
-
-Toast Notification Handling
-
-The project uses:
-
-react-hot-toast
-
-Purpose:
-
-Provide user feedback without redirecting pages.
-
-Examples:
-
-Success:
-
-Blood request created successfully
-
-Errors:
-
-Failed to create request
-Current Data Flow
-
-Creating a blood request:
-
-Hospital User
-
-      |
-
-      |
-
-BloodRequestForm.jsx
-
-      |
-
-      |
-
-api.js Axios Request
-
-      |
-
-      |
-
-Flask Route
-
-      |
-
-      |
-
-SQLAlchemy Model
-
-      |
-
-      |
-
-PostgreSQL Database
-
-Retrieving requests follows the reverse process:
-
-Database
-
-      |
-
-      |
-
-Flask Route
-
-      |
-
-      |
-
-Axios
-
-      |
-
-      |
-
-React Component
-Development Structure Rules
-
-Backend changes:
-
-Models
-        |
-        |
-models.py
-
-
-Application logic
-        |
-        |
-routes/
-
-Frontend changes:
-
-Reusable UI
-
-        |
-
-components/
-
-
-Complete screens
-
-        |
-
-pages/
-
-API communication:
-
-Always through api.js
-
-Navigation:
-
-Controlled through Navbar role
-
-## How to run it
-
-bashcd BloodLink
-npm install
-npm run dev
-
-Then open the local URL shown in the terminal (e.g. http://localhost:5173).
+- User registration
+- User login
+- Profile retrieval
+- Profile updates
+- Donor retrieval
+- Hospital retrieval
+- Blood request creation
+- Blood request retrieval
+- Blood request updates

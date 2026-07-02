@@ -1,311 +1,203 @@
-# BloodLink Backend Setup Guide
-
+# BloodLink Backend
 ## Overview
 
-This README explains how to continue development from the current backend state.
+The backend of **BloodLink** is built with **Flask** and exposes a REST API that powers the BloodLink web application. It manages authentication, donor information, hospital profiles, and blood donation requests while storing all data in a PostgreSQL database through SQLAlchemy.
 
-The backend has already been implemented with:
+The project follows a simple modular structure where each resource has its own route file while sharing a common database connection and configuration.
 
-* Flask
-* PostgreSQL
-* SQLAlchemy
-* Flask-Migrate
-* Flask-CORS
-
-Completed setup:
-
-* PostgreSQL database connection
-* Flask environment setup
-* Database models
-* Database migrations
-* Hospital functionality
-* Blood request functionality
-
-The next developer should continue from the existing structure and avoid restructuring unless necessary.
-
----
-
-# 1. Clone Repository
-
-Clone the repository:
-
-```bash
-git clone <repository-url>
-```
-
-Navigate into the backend:
-
-```bash
-cd BloodLink/Backend
-```
-
----
-
-# 2. Install PostgreSQL
-
-Download PostgreSQL:
-
-https://www.postgresql.org/download/
-
-During installation:
-
-Use the default settings:
-
-```
-Port: 5432
-Username: postgres
-```
-
-Set a password.
-
-The current project database configuration uses:
-
-```
-Username:
-postgres
-
-Password:
-12345
-```
-
-If using a different password, update:
-
-```
-Backend/config.py
-```
-
-Example:
-
-```python
-SQLALCHEMY_DATABASE_URI = (
-    "postgresql://postgres:YOUR_PASSWORD@localhost/bloodlink"
-)
-```
-
----
-
-# 3. Create Database
-
-Open:
-
-```
-SQL Shell (psql)
-```
-
-Login using:
-
-```
-Server:
-localhost
-
-Database:
-postgres
-
-Port:
-5432
-
-Username:
-postgres
-
-Password:
-your password
-```
-
-Create the project database:
-
-```sql
-CREATE DATABASE bloodlink;
-```
-
-Connect to it:
-
-```sql
-\c bloodlink
-```
-
-Check databases:
-
-```sql
-\l
-```
-
----
-
-# 4. Create Python Virtual Environment
-
-Inside:
-
-```
-BloodLink/Backend
-```
-
-Create environment:
-
-Windows:
-
-```bash
-python -m venv venv
-```
-
-Activate:
-
-```bash
-venv\Scripts\activate
-```
-
-You should see:
-
-```
-(venv)
-```
-
-in your terminal.
-
----
-
-# 5. Install Python Dependencies
-
-With the virtual environment active:
-
-```bash
-pip install flask
-pip install flask-sqlalchemy
-pip install flask-migrate
-pip install flask-cors
-pip install psycopg2-binary
-```
-
-
-# 6. Backend Structure
-
-Current structure:
-
-```
+# Project Structure
 Backend
 │
 ├── app.py
 ├── config.py
 ├── extensions.py
 ├── models.py
+├── Pipfile
+├── Pipfile.lock
+├── Procfile
+├── render.yaml
+├── requirements.txt
+├── README.md
 │
 ├── migrations/
 │
-└── routes/
-    │
-    ├── hospitals.py
-    └── requests.py
-```
+├── routes/
+│   ├── auth.py
+│   ├── donors.py
+│   ├── hospitals.py
+│   └── requests.py
+│
+└── __pycache__/
+# File Responsibilities
 
-Do not remove `extensions.py`.
+## app.py
 
-It contains the shared database instance and prevents circular imports.
+The application's entry point.
 
----
+Responsibilities include:
 
-# 7. Database Migration Setup
+- Creating the Flask application
+- Loading configuration values
+- Initializing SQLAlchemy
+- Initializing Flask-Migrate
+- Configuring CORS
+- Registering all API blueprints
+- Providing the root API endpoint
 
-If migrations already exist:
+Every request sent from the frontend passes through this application.
 
-Run:
+## config.py
+Contains all application configuration.
 
-```bash
-flask db upgrade
-```
+This includes:
 
-If setting up for the first time:
+- Database connection
+- Secret key
+- Environment variable loading
+- SQLAlchemy configuration
 
-Initialize:
+The application reads configuration from environment variables, making it suitable for both local development and deployment.
 
-```bash
-flask db init
-```
+## extensions.py
+Contains shared Flask extensions.
 
-Create migration:
+Currently manages:
 
-```bash
-flask db migrate -m "initial migration"
-```
+- SQLAlchemy database instance
+- Flask-Migrate instance
 
-Apply:
+Keeping these objects separate prevents circular imports across the project.
 
-```bash
-flask db upgrade
-```
+## models.py
+Contains all database models.
 
----
+The project currently includes models for:
 
-# 8. Running the Backend
+- Donors
+- Hospitals
+- Blood Requests
 
-Activate environment:
+Each model represents a database table and defines relationships, fields, timestamps, and constraints.
 
-```bash
-venv\Scripts\activate
-```
+# Routes
 
-Start Flask:
+Each resource has its own route file responsible for handling its API endpoints.
 
-```bash
-python app.py
-```
+## auth.py
 
-Expected output:
+Handles user authentication.
 
-```
-Running on http://127.0.0.1:5000
-```
+Features include:
 
-Test:
+- User login
+- User registration
+- Password hashing
+- Password verification
+- Hospital authentication
+- Donor authentication
 
-Open browser:
+The login endpoint returns the authenticated user's details and role, allowing the frontend to determine which interface should be displayed.
 
-```
-http://127.0.0.1:5000
-```
+## donors.py
+Handles donor-related operations.
 
-Expected:
+Current functionality includes:
 
-```json
-{
-"message":"BloodLink API running"
-}
-```
+- Retrieve all donors
+- Retrieve an individual donor profile
+- Update donor profile information
 
----
+These endpoints power the donor profile pages within the frontend.
 
-# 9. Important Configuration Notes
+## hospitals.py
+Handles hospital-related functionality.
 
-Database connection is located in:
+Current functionality includes:
 
-```
-config.py
-```
+- Retrieve all hospitals
+- Retrieve a hospital profile
+- Update hospital information
 
-Current database:
+Hospital dashboards and profile pages consume these endpoints.
 
-```
-bloodlink
-```
+## requests.py
+Handles blood request management.
 
-Current PostgreSQL connection:
+Current functionality includes:
 
-```
-postgresql://postgres:12345@localhost/bloodlink
-```
+- Create blood requests
+- Retrieve all requests
+- Retrieve individual requests
+- Update request status
+- Accept or decline requests
+- Associate accepted requests with donors
 
-Change only if your local PostgreSQL credentials differ.
+These endpoints are used by both hospitals and donors throughout the application.
 
----
+# migrations/
+Stores all Flask-Migrate migration files.
 
-# 10. Before Continuing Development
+These migration scripts maintain the database schema as the application evolves without requiring manual table creation.
 
-Confirm:
+# requirements.txt
+Lists all Python dependencies required by the backend.
 
-* PostgreSQL service is running
-* Virtual environment is active
-* Database exists
-* Flask server starts successfully
-* Migrations are applied
+This file is used during deployment to automatically install the correct packages.
 
-Then continue development from the existing routes and models.
+# Pipfile & Pipfile.lock
+Dependency management files used by Pipenv.
+
+They provide an alternative way of managing project packages and ensure consistent package versions across environments.
 
 
+# Procfile
+Defines how the production server starts the application.
+
+Render uses this file to launch Gunicorn when deploying the backend.
+
+# render.yaml
+Contains deployment configuration for Render.
+
+It defines how the backend service is built and started in production.
+
+# Overall Backend Flow
+Frontend
+      │
+      ▼
+HTTP Request
+      │
+      ▼
+Flask Routes
+      │
+      ▼
+Business Logic
+      │
+      ▼
+SQLAlchemy Models
+      │
+      ▼
+PostgreSQL Database
+      │
+      ▼
+JSON Response
+      │
+      ▼
+Frontend
+
+# Current Features
+The backend currently supports:
+
+- User authentication
+- Donor registration
+- Hospital registration
+- Secure password hashing
+- Donor profile management
+- Hospital profile management
+- Blood request creation
+- Blood request retrieval
+- Blood request status updates
+- Donor acceptance and decline of requests
+- PostgreSQL database persistence
+- Database migrations
+- Cross-Origin Resource Sharing (CORS) configuration
+- Deployment on Render using Gunicorn
