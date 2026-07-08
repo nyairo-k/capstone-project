@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from extensions import db
 from models import Hospital
+from flask_jwt_extended import jwt_required, get_jwt_identity,get_jwt
 
 
 hospital_routes = Blueprint(
@@ -72,7 +73,13 @@ def create_hospital():
     "/hospitals/<int:id>",
     methods=["GET"]
 )
+@jwt_required()
 def get_hospital(id):
+    current_user = int(get_jwt_identity())
+    if current_user != id:
+        return jsonify({
+        "message": "You are not allowed to access this profile."
+    }), 403
 
 
     hospital = Hospital.query.get(id)
@@ -110,8 +117,17 @@ def get_hospital(id):
     "/hospitals/<int:id>",
     methods=["PATCH"]
 )
+@jwt_required()
 def update_hospital(id):
-
+    current_user = int(get_jwt_identity())
+    claims = get_jwt()
+    print("Logged in Hospital ID:", current_user)
+    print("Requested Hospital ID:", id)
+    print("Claims:", claims)
+    if current_user != id:
+        return jsonify({
+            "message": "You are not allowed to edit this profile."
+        }), 403
 
     hospital = Hospital.query.get(id)
 

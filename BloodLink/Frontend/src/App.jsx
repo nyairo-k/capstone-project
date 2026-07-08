@@ -8,12 +8,13 @@ import DonorDirectoryPage from "./pages/donors/DonorDirectoryPage";
 import DonorDetailsPage from "./pages/donors/DonorDetailsPage";
 import DonorProfilePage from "./pages/donors/DonorProfilePage";
 import IncomingRequestsPage from "./pages/donors/IncomingRequestsPage";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "react-hot-toast";
 import HospitalProfilePage from "./pages/hospitals/HospitalProfilePage";
 import BloodRequestForm from "./pages/requests/BloodRequestForm";
 import RequestListPage from "./pages/requests/RequestListPage";
 import HospitalDashboard from "./pages/hospitals/HospitalDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
@@ -22,80 +23,103 @@ function App() {
 
       <Routes>
 
-        <Route path="/" element={<HomePage />} />
+        {/* Public Routes */}
+
+        <Route path="/" element={<LandingPage />} />
+
         <Route path="/about" element={<AboutPage />} />
 
         <Route path="/login" element={<LoginPage />} />
+
         <Route path="/signup" element={<SignupPage />} />
 
-        <Route path="/donors" element={<DonorDirectoryPage />} />
-        <Route path="/donors/:id" element={<DonorDetailsPage />} />
-        <Route path="/donor/profile" element={<DonorProfilePage />} />
-        <Route path="/donor/requests" element={<IncomingRequestsPage />} />
-        { /* hospital routes*/}
-        <Route
+        {/* Donor Routes */}
 
+        <Route
+          path="/donor/dashboard"
+          element={
+            <ProtectedRoute role="donor">
+              <HomePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/donors"
+          element={
+            <ProtectedRoute role="donor">
+              <DonorDirectoryPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/donors/:id"
+          element={
+            <ProtectedRoute role="donor">
+              <DonorDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/donor/profile"
+          element={
+            <ProtectedRoute role="donor">
+              <DonorProfilePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/donor/requests"
+          element={
+            <ProtectedRoute role="donor">
+              <IncomingRequestsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Hospital Routes */}
+
+        <Route
           path="/hospital/profile"
-
           element={
-
             <ProtectedRoute role="hospital">
-
               <HospitalProfilePage />
-
             </ProtectedRoute>
-
           }
-
         />
-        <Route
 
+        <Route
           path="/requests"
-
           element={
-
             <ProtectedRoute role="hospital">
-
               <RequestListPage />
-
             </ProtectedRoute>
-
           }
-
         />
-        <Route
 
+        <Route
           path="/requests/create"
-
           element={
-
             <ProtectedRoute role="hospital">
-
               <BloodRequestForm />
-
             </ProtectedRoute>
-
           }
-
         />
+
         <Route
-
           path="/hospital/dashboard"
-
           element={
-
             <ProtectedRoute role="hospital">
-
               <HospitalDashboard />
-
             </ProtectedRoute>
-
           }
-
         />
+
       </Routes>
     </>
-
   );
 }
 

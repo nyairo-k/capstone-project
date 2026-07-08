@@ -2,18 +2,25 @@ from flask import Blueprint, request, jsonify
 import requests as http_requests
 from extensions import db
 from models import Donor
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 donor_routes = Blueprint("donor_routes", __name__)
 
 # GET all donors
 @donor_routes.route("/donors", methods=["GET"])
+@jwt_required()
 def get_donors():
+    current_user = get_jwt_identity()
+    print("Current User:", current_user)
     donors = Donor.query.all()
     return jsonify([donor.to_dict() for donor in donors]), 200
 
 # GET a single donor
 @donor_routes.route("/donors/<int:id>", methods=["GET"])
+@jwt_required()
 def get_donor(id):
+    current_user = get_jwt_identity()
+    print("Current User:", current_user)
     donor = Donor.query.get_or_404(id)
     return jsonify(donor.to_dict()), 200
 
@@ -70,7 +77,13 @@ def create_donor():
 
 # PATCH - update donor
 @donor_routes.route("/donors/<int:id>", methods=["PATCH"])
+@jwt_required()
 def update_donor(id):
+    current_user = int(get_jwt_identity())
+    if current_user != id:
+        return jsonify({
+            "message": "You are not allowed to edit this profile."
+    }), 403
     donor=Donor.query.get_or_404(id)
     data=request.get_json()
 

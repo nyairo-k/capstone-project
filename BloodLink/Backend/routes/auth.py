@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from models import Hospital, Donor
 from werkzeug.security import check_password_hash, generate_password_hash
 from extensions import db
+from flask_jwt_extended import create_access_token
 
 auth_routes = Blueprint(
     "auth_routes",
@@ -26,14 +27,39 @@ def login():
 
         if check_password_hash(hospital.password_hash, password):
 
+            access_token = create_access_token(
+
+                identity=str(hospital.id),
+
+                additional_claims={
+
+                    "role": hospital.role,
+
+                    "name": hospital.hospital_name,
+
+                    "email": hospital.email
+
+                }
+
+            )
+
             return jsonify({
 
-                "id": hospital.id,
-                "name": hospital.hospital_name,
-                "email": hospital.email,
-                "role": hospital.role
+                "access_token": access_token,
 
-            }),200
+                "user": {
+
+                    "id": hospital.id,
+
+                    "name": hospital.hospital_name,
+
+                    "email": hospital.email,
+
+                    "role": hospital.role
+
+                }
+
+            }), 200
 
 
 
@@ -44,14 +70,39 @@ def login():
 
         if check_password_hash(donor.password_hash, password):
 
+            access_token = create_access_token(
+
+                identity=str(donor.id),
+
+                additional_claims={
+
+                    "role": donor.role,
+
+                    "name": donor.full_name,
+
+                    "email": donor.email
+
+                }
+
+            )
+
             return jsonify({
 
-                "id": donor.id,
-                "name": donor.full_name,
-                "email": donor.email,
-                "role": donor.role
+                "access_token": access_token,
 
-            }),200
+                "user": {
+
+                    "id": donor.id,
+
+                    "name": donor.full_name,
+
+                    "email": donor.email,
+
+                    "role": donor.role
+
+                }
+
+            }), 200
 
 
 
