@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 
 from extensions import db
 from models import BloodRequest
+from flask_jwt_extended import jwt_required, get_jwt_identity,get_jwt
 
 
 
@@ -14,8 +15,13 @@ request_routes = Blueprint(
     "/requests",
     methods=["POST"]
 )
+@jwt_required()
 def create_request():
-
+    claims = get_jwt()
+    if claims["role"] != "hospital":
+        return jsonify({
+            "message": "Only hospitals can create requests."
+        }), 403
 
     data = request.json
 
@@ -84,6 +90,7 @@ def create_request():
     "/requests",
     methods=["GET"]
 )
+@jwt_required()
 def get_requests():
 
 
@@ -128,7 +135,15 @@ def get_requests():
     "/requests/<int:id>",
     methods=["PATCH"]
 )
+@jwt_required()
+
 def update_request(id):
+    current_user = int(get_jwt_identity())
+    claims = get_jwt()
+    if claims["role"] != "donor":
+     return jsonify({
+        "message": "Only donors can respond to requests."
+    }),403
 
 
     blood_request = BloodRequest.query.get(id)
@@ -166,10 +181,14 @@ def update_request(id):
     )
 
 
-    blood_request.status = data.get(
-        "status",
-        blood_request.status
-    )
+    status = data.get("status")
+
+    if status not in ["accepted", "declined"]:
+        return jsonify({
+            "message": "Invalid status."
+        }), 400
+
+    blood_request.status = status
 
 
     blood_request.contact_phone = data.get(
@@ -183,10 +202,7 @@ def update_request(id):
         blood_request.location
     )
 
-    blood_request.donor_id = data.get(
-        "donor_id",
-        blood_request.donor_id
-    )
+    blood_request.donor_id = current_user
 
 
 
@@ -218,8 +234,14 @@ def update_request(id):
     "/requests/<int:id>",
     methods=["DELETE"]
 )
+@jwt_required()
 def delete_request(id):
 
+    claims = get_jwt()
+    if claims["role"] != "hospital":
+        return jsonify({
+            "message": "Only hospitals can delete requests."
+        }), 403
 
     blood_request = BloodRequest.query.get(id)
 

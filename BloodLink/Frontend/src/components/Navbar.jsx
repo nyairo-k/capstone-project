@@ -1,9 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import savesLives from "../assets/saves-lives.jpeg";
 
 const PUBLIC_LINKS = [
   { label: "Home", path: "/" },
-  { label: "Find Donors", path: "/donors" },
   { label: "About Us", path: "/about" },
 ];
 
@@ -16,16 +15,18 @@ const HOSPITAL_LINKS = [
 ];
 
 const DONOR_LINKS = [
-  { label: "Dashboard", path: "/" },
+  { label: "Dashboard", path: "/donor/dashboard" },
   { label: "Profile", path: "/donor/profile" },
   { label: "Blood Requests", path: "/donor/requests" },
-  { label: "About Us", path: "/about" }
+  { label: "About Us", path: "/about" },
 ];
 
 export default function Navbar() {
 
   const location = useLocation();
+  const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
   const role = user?.role;
@@ -40,6 +41,11 @@ export default function Navbar() {
     links = DONOR_LINKS;
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
+    navigate("/login");
+  };
 
   return (
     <header className="flex items-center justify-between px-[60px] py-[24px] bg-[#eeeaea]">
@@ -63,32 +69,33 @@ export default function Navbar() {
                 : ""
               }`}
           >
-
             {link.label}
-
           </Link>
 
         ))}
 
       </nav>
 
+      {token ? (
 
-      <Link
+        <button
+          onClick={handleLogout}
+          className="bg-[rgba(242,7,11,0.63)] text-white hover:-translate-y-0.5 font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
+        >
+          Logout
+        </button>
 
-        to="/login"
+      ) : (
 
-        onClick={() => {
-          localStorage.removeItem("currentUser");
-        }}
+        <Link
+          to="/signup"
+          className="bg-[rgba(242,7,11,0.63)] text-white hover:-translate-y-0.5 font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
+        >
+          Sign Up
+        </Link>
 
-        className="bg-[rgba(242,7,11,0.63)] text-white hover:-translate-y-0.5 font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
-      >
-
-        Logout
-
-      </Link>
-
+      )}
 
     </header>
-  )
+  );
 }

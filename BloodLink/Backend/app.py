@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 import os
-
+from flask_jwt_extended import JWTManager
 from config import Config
 from extensions import db, migrate
 
@@ -9,6 +9,8 @@ from extensions import db, migrate
 app = Flask(__name__)
 
 app.config.from_object(Config)
+
+jwt = JWTManager(app)
 
 
 db.init_app(app)

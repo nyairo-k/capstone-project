@@ -12,16 +12,32 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/login", { email, password });
-      console.log(response.data);
-      localStorage.setItem("currentUser", JSON.stringify(response.data));
+      const response = await api.post("/login", {
+        email,
+        password
+      });
 
-      if (response.data.role === "hospital") navigate("/hospital/dashboard");
-      else if (response.data.role === "donor") navigate("/");
+      localStorage.setItem(
+        "token",
+        response.data.access_token
+      );
+      localStorage.setItem(
+        "currentUser",
+        JSON.stringify(response.data.user)
+      );
 
-    } catch (error) {
+      if (response.data.user.role === "hospital") {
+        navigate("/hospital/dashboard");
+      } else {
+        navigate("/donor/dashboard");
+      }
+    }
+    catch (error) {
       console.log(error);
-      alert(error.response?.data?.message || "Login failed");
+      alert(
+        error.response?.data?.message ||
+        "Login failed"
+      );
     }
   };
 

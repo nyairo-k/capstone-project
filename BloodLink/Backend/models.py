@@ -160,7 +160,10 @@ class Donor(db.Model):
         "longitude": self.longitude,
         "role": self.role,
         "is_available": self.is_available,
-        "last_donation_date": str(self.last_donation_date),
-        "created_at": str(self.created_at),
+"last_donation_date": (
+    self.last_donation_date.isoformat()
+    if self.last_donation_date
+    else None
+),        "created_at": str(self.created_at),
         "updated_at": str(self.updated_at)
            }

@@ -4,8 +4,6 @@ import Footer from "../../components/Footer";
 import api from "../../api/api";
 
 export default function IncomingRequestsPage() {
-  const user = JSON.parse(localStorage.getItem("currentUser"));
-  const donorId = user?.id;
 
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +28,6 @@ export default function IncomingRequestsPage() {
         `/requests/${requestId}`,
         {
           status: response,
-          donor_id: donorId
         }
       );
 
@@ -139,7 +136,7 @@ export default function IncomingRequestsPage() {
               }
 
               {req.status !== "pending" &&
-                <p>You have <b>{req.status}</b> this request.</p>
+                <p>This Request was  <b>{req.status}</b></p>
               }
             </div>
           ))}
