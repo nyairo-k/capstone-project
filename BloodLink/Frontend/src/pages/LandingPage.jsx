@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import EligibilityQuiz from "./EligibilityQuiz";
 
 export default function LandingPage() {
     const stats = [
@@ -56,6 +57,11 @@ export default function LandingPage() {
                         <p className="text-gray-400 text-sm font-medium tracking-wider uppercase">Blood Donation Connection Network</p>
                     </div>
                 </div>
+            </section>
+
+            {/* Eligibility Quiz (embedded on landing page) */}
+            <section className="px-[60px] py-[60px] max-w-[900px] mx-auto">
+                <EligibilityQuiz />
             </section>
 
             {/* Statistics Section */}
