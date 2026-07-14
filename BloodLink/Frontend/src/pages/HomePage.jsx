@@ -9,6 +9,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 
 
 
@@ -35,22 +36,26 @@ const STEPS = [
 
 const STATS = [
     {
-        value: "1.2 Million",
+        target: 1.2,
+        format: (n) => `${n.toFixed(1)} Million`,
         label: "Active donors using our system available",
         className: "bg-[#F26D6D] text-white",
     },
     {
-        value: "140,000+",
+        target: 140000,
+        format: (n) => `${Math.round(n).toLocaleString()}+`,
         label: "Donations performed so far",
         className: "bg-[#FFE2E6] text-[#1E2833] border border-[#F26D6D]/40",
     },
     {
-        value: "16",
+        target: 16,
+        format: (n) => `${Math.round(n)}`,
         label: "Hospitals and clinics that use the service",
         className: "bg-[#9BCB6F] text-[#1E2833]",
     },
     {
-        value: "370+",
+        target: 370,
+        format: (n) => `${Math.round(n)}+`,
         label: "Blood collection centres",
         className: "bg-[#9FB8C4] text-[#1E2833]",
     },
@@ -69,18 +74,62 @@ function Header() {
 
 }
 function HowWeWork() {
+    const sectionRef = useRef(null);
+    const [inView, setInView] = useState(false);
+
+    useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setInView(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.2 }
+        );
+
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
     return (
-        <section className="px-[60px] pt-[60px] pb-[40px]">
+        <section ref={sectionRef} className="px-[60px] pt-[60px] pb-[40px]">
             <h2 className="font-['Manrope',sans-serif] font-bold text-[36px] text-black mb-[40px]">
                 How we work
             </h2>
 
             <div className="relative w-[1280px] h-[720px] mx-auto">
 
-                {STEPS.map((step) => (
+                <svg
+                    className="absolute inset-0 w-full h-full pointer-events-none"
+                    viewBox="0 0 1280 720"
+                    fill="none"
+                >
+                    <path
+                        d="M639,220 Q450,370 300,470"
+                        stroke="rgba(0,0,0,0.2)"
+                        strokeWidth="3"
+                        strokeDasharray="9 9"
+                        className={`transition-[stroke-dashoffset,opacity] duration-[1200ms] ${inView ? "opacity-100" : "opacity-0"}`}
+                    />
+                    <path
+                        d="M639,220 Q828,370 978,470"
+                        stroke="rgba(0,0,0,0.2)"
+                        strokeWidth="3"
+                        strokeDasharray="9 9"
+                        className={`transition-[stroke-dashoffset,opacity] duration-[1200ms] ${inView ? "opacity-100" : "opacity-0"}`}
+                    />
+                </svg>
+
+                {STEPS.map((step, index) => (
                     <div
                         key={step.number}
-                        className={`absolute ${step.wrapperClass} ${step.color} rounded-[50%] flex flex-col items-center justify-center text-center px-[40px] shadow-[0px_4px_50px_rgba(0,0,0,0.1)]`}
+                        style={{ transitionDelay: `${index * 180}ms` }}
+                        className={`absolute ${step.wrapperClass} ${step.color} rounded-[50%] flex flex-col items-center justify-center text-center px-[40px] shadow-[0px_4px_50px_rgba(0,0,0,0.1)] transition-all duration-700 ease-out hover:-translate-y-[6px] hover:shadow-[0px_12px_40px_rgba(0,0,0,0.18)]
+                        ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-[30px]"}`}
                     >
                         <span className="font-['Manrope',sans-serif] font-bold text-[64px] text-black drop-shadow-[0px_4px_4px_rgba(0,0,0,0.25)] mb-[10px]">
                             {step.number}
@@ -126,9 +175,66 @@ function Sponsors() {
     );
 }
 
-function UnderlyingMetrics() {
+function StatCard({ stat, inView }) {
+    const [value, setValue] = useState(0);
+
+    useEffect(() => {
+        if (!inView) return;
+
+        const duration = 1400;
+        const start = performance.now();
+
+        let frame;
+        const tick = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setValue(stat.target * eased);
+
+            if (progress < 1) {
+                frame = requestAnimationFrame(tick);
+            }
+        };
+
+        frame = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(frame);
+    }, [inView, stat.target]);
+
     return (
-        <section>
+        <div className={`rounded-[10px] p-[24px] ${stat.className}`}>
+            <p className="font-['Roboto',sans-serif] font-bold text-[28px] mb-[8px]">
+                {stat.format(value)}
+            </p>
+            <p className="font-['Roboto',sans-serif] font-light text-[14px] leading-snug">
+                {stat.label}
+            </p>
+        </div>
+    );
+}
+
+function UnderlyingMetrics() {
+    const sectionRef = useRef(null);
+    const [inView, setInView] = useState(false);
+
+    useEffect(() => {
+        const el = sectionRef.current;
+        if (!el) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setInView(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <section ref={sectionRef}>
             <div className="w-full h-[40px] bg-gradient-to-r from-[#9BCB6F] via-[#F4D35E] to-[#F26D6D] flex items-center justify-center">
                 <span className="font-['Roboto',sans-serif] font-bold text-[14px] tracking-[2px] uppercase text-white">
                     Underlying metrics
@@ -137,17 +243,7 @@ function UnderlyingMetrics() {
 
             <div className="grid grid-cols-4 gap-[24px] px-[60px] py-[40px] bg-white">
                 {STATS.map((stat) => (
-                    <div
-                        key={stat.label}
-                        className={`rounded-[10px] p-[24px] ${stat.className}`}
-                    >
-                        <p className="font-['Roboto',sans-serif] font-bold text-[28px] mb-[8px]">
-                            {stat.value}
-                        </p>
-                        <p className="font-['Roboto',sans-serif] font-light text-[14px] leading-snug">
-                            {stat.label}
-                        </p>
-                    </div>
+                    <StatCard key={stat.label} stat={stat} inView={inView} />
                 ))}
             </div>
         </section>
