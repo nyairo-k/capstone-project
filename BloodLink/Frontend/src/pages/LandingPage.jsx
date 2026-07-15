@@ -126,13 +126,13 @@ export default function LandingPage() {
                                 <span className="text-[#D43545]">•</span> Create donor account securely
                             </li>
                             <li className="flex items-center gap-3 font-medium">
-                                <span className="text-[#D43545]">•</span> Manage operational health profile
+                                <span className="text-[#D43545]">•</span> Minimum age 18 years and minimum weight 50 kg
+                            </li>
+                            <li className="flex items-center gap-3 font-medium">
+                                <span className="text-[#D43545]">•</span> Must be medically fit and available for donation
                             </li>
                             <li className="flex items-center gap-3 font-medium">
                                 <span className="text-[#D43545]">•</span> Accept local emergency requests
-                            </li>
-                            <li className="flex items-center gap-3 font-medium">
-                                <span className="text-[#D43545]">•</span> Instantly update real-time availability
                             </li>
                         </ul>
                     </div>
@@ -146,10 +146,10 @@ export default function LandingPage() {
                                 <span className="text-black">•</span> Register verified medical facility
                             </li>
                             <li className="flex items-center gap-3 font-medium">
-                                <span className="text-black">•</span> Create emergency blood requests
+                                <span className="text-black">•</span> Provide valid hospital contact and location details
                             </li>
                             <li className="flex items-center gap-3 font-medium">
-                                <span className="text-black">•</span> Track real-time response pipelines
+                                <span className="text-black">•</span> Create emergency blood requests with required urgency details
                             </li>
                         </ul>
                     </div>
