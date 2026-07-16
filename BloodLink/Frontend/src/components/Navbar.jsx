@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import savesLives from "../assets/saves-lives.jpeg";
 
@@ -25,6 +26,14 @@ export default function Navbar() {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("currentUser"));
@@ -48,7 +57,10 @@ export default function Navbar() {
   };
 
   return (
-    <header className="flex items-center justify-between px-[60px] py-[24px] bg-[#eeeaea]">
+    <header
+      className={`sticky top-0 z-50 flex items-center justify-between px-[60px] py-[24px] bg-[#eeeaea] transition-shadow duration-300
+      ${scrolled ? "shadow-[0px_4px_20px_rgba(0,0,0,0.08)]" : ""}`}
+    >
 
       <img
         src={savesLives}
@@ -63,7 +75,7 @@ export default function Navbar() {
           <Link
             key={link.label}
             to={link.path}
-            className={`font-['Poppins',sans-serif] text-[22px] pb-[10px]
+            className={`font-['Poppins',sans-serif] text-[22px] pb-[10px] transition-colors duration-200 hover:text-[#F2070B]
             ${location.pathname === link.path
                 ? "border-b-[5px] border-[#4b4949]"
                 : ""
