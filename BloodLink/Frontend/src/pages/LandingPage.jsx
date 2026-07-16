@@ -34,6 +34,7 @@ export default function LandingPage() {
                     <p className="text-[#D43545] tracking-[4px] font-extrabold text-sm uppercase">
                         Donate Blood. Save Lives.
                     </p>
+
                     <h1 className="text-6xl font-black uppercase leading-tight tracking-tight">
                         Donate Blood.<br />
                         <span className="text-[#D43545]">Save Lives Today</span>
@@ -42,7 +43,7 @@ export default function LandingPage() {
                         BloodLink connects verified donors with hospitals during emergencies, making blood donation faster, safer and more accessible.
                     </p>
                     <div className="flex gap-4 pt-4">
-                        <Link to="/register?role=donor" className="bg-[#D43545] hover:bg-[#b82a38] text-white px-8 py-4 rounded-full font-bold shadow-lg transition-all duration-200">
+                        <Link to="/login" className="bg-[#D43545] hover:bg-[#b82a38] text-white px-8 py-4 rounded-full font-bold shadow-lg transition-all duration-200">
                             Become a Donor
                         </Link>
                         <Link to="/login" className="bg-black hover:bg-gray-900 text-white px-8 py-4 rounded-full font-bold shadow-lg transition-all duration-200">

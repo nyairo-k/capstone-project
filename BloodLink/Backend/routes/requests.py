@@ -140,6 +140,10 @@ def get_requests():
 def update_request(id):
     current_user = int(get_jwt_identity())
     claims = get_jwt()
+    print("JWT Claims:", claims)
+    print("Role:", claims.get("role"))
+    print("Identity:", get_jwt_identity())
+
     if claims["role"] != "donor":
      return jsonify({
         "message": "Only donors can respond to requests."

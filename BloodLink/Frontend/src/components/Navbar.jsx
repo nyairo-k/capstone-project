@@ -86,13 +86,25 @@ export default function Navbar() {
         </button>
 
       ) : (
+        <div className="flex gap-10">
 
-        <Link
-          to="/signup"
-          className="bg-[rgba(242,7,11,0.63)] text-white hover:-translate-y-0.5 font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
-        >
-          Sign Up
-        </Link>
+          <Link
+            to="/login"
+            className="bg-[rgba(242,7,11,0.63)] text-white hover:-translate-y-0.5 font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
+          >
+            Log In
+          </Link>
+          <Link
+            to="/signup"
+            className="bg-[rgba(242,7,11,0.63)] text-white hover:-translate-y-0.5 font-bold text-[22px] rounded-[10px] px-[45px] py-[14px]"
+          >
+            Sign Up
+          </Link>
+
+        </div>
+
+
+
 
       )}
 

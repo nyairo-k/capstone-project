@@ -143,12 +143,7 @@ export default function AboutPage() {
               Join thousands of donors already saving lives through BloodLink.
             </p>
           </div>
-          <Link
-            to="/"
-            className="bg-white text-[#D43545] font-['Roboto',sans-serif] font-bold text-[22px] rounded-[10px] px-[48px] py-[18px] hover:bg-[#fff5f5] transition-colors whitespace-nowrap"
-          >
-            Get Started
-          </Link>
+
         </div>
       </section>
 
