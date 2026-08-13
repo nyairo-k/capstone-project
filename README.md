@@ -7,6 +7,7 @@
 - [Technologies Used](#technologies-used)
 - [Setup Instructions](#setup-instructions)
 - [Run Instructions](#run-instructions)
+- [Website URL](#website-url)
 - [Author](#author)
 
 ## Project Description
@@ -44,7 +45,7 @@ python app.py
 The app will be available at: http://localhost:5000
 
 ## Website URL: 
-https://capstone-project-1-fw4z.onrender.com
+https://bloodlink-frontend-eru4.onrender.com
 
 ## Authors
 Agnes Ng'ang'a

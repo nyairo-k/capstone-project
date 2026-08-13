@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: bloodlink-api
+    runtime: python
+    rootDir: BloodLink/Backend
+    plan: free
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false  
+      - key: FRONTEND_URL
+        sync: false
+
+  - type: web
+    name: bloodlink-frontend
+    runtime: static
+    rootDir: BloodLink/Frontend
+
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+
+    envVars:
+      - key: VITE_API_URL
+        sync: false

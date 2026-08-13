@@ -3,6 +3,7 @@ from models import Hospital, Donor
 from werkzeug.security import check_password_hash, generate_password_hash
 from extensions import db
 from flask_jwt_extended import create_access_token
+from sqlalchemy.exc import IntegrityError
 
 auth_routes = Blueprint(
     "auth_routes",
@@ -179,7 +180,13 @@ def signup():
 
     db.session.add(new_user)
 
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({
+            "message":"Email already registered"
+        }), 409    
 
 
 

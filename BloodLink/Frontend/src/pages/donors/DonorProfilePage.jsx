@@ -51,7 +51,7 @@ function DonorProfilePage() {
     }
     catch (error) {
       console.log(error);
-      toast.error("Failed to update profile");
+      toast.error(error.response?.data?.error || "Failed to update profile");
     }
   };
 
